@@ -20,6 +20,7 @@ please contact mla_licensing@microchip.com
 /** INCLUDES *******************************************************/
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include "system.h"
 
@@ -57,6 +58,19 @@ static bool sentNoteOff;
 
 static USB_VOLATILE uint8_t msCounter;
 
+typedef struct
+{
+    // BUFFER_STATE             TransferState;      // The transfer state of the endpoint
+    uint8_t                 numOfMIDIPackets;   // Each USB Packet sent from a device has the possibility of holding more than one MIDI packet,
+    uint8_t                 endpointIndex;                           // keep track of how many MIDI packets are within a USB packet (between 1 and 16, or 4 and 64 bytes)
+    USB_AUDIO_MIDI_EVENT_PACKET*  bufferStart;        // The 2D buffer for the endpoint. There are MIDI_USB_BUFFER_SIZE USB buffers that are filled with numOfMIDIPackets
+                                                //  MIDI packets. This allows for MIDI_USB_BUFFER_SIZE USB packets to be saved, with a possibility of up to 
+                                                //  numOfMIDIPackets MIDI packets within each USB packet.
+    USB_AUDIO_MIDI_EVENT_PACKET*  pBufReadLocation;   // Pointer to USB packet that is being read from
+    USB_AUDIO_MIDI_EVENT_PACKET*  pBufWriteLocation;  // Pointer to USB packet that is being written to
+}MIDI_EVENT_BUFFER;
+
+MIDI_EVENT_BUFFER midi_event_buffer;
 /*********************************************************************
 * Function: void APP_DeviceAudioMIDIInitialize(void);
 *
@@ -136,14 +150,35 @@ void APP_DeviceAudioMIDITasks()
     {
         //We have received a MIDI packet from the host, process it and then
         //  prepare to receive the next packet
-
+        initializeMIDIEventBuffer();
         //INSERT MIDI PROCESSING CODE HERE
         //Read data from handle
         //Parse into separate MIDI messages
-        //Parse each message into a MIDI packet structure
-        //
-
+        //parseMidiPacketsFromBuffer()
         //Get ready for next packet (this will overwrite the old data)
         USBRxHandle = USBRxOnePacket(USB_DEVICE_AUDIO_MIDI_ENDPOINT,(uint8_t*)&ReceivedDataBuffer,64);
     }
 }
+
+void initializeMIDIEventBuffer()
+{
+    //Allocate 64 bytes for the midi packet buffer
+    midi_event_buffer.bufferStart = malloc( sizeof(USB_AUDIO_MIDI_EVENT_PACKET) * 16);
+    midi_event_buffer.pBufReadLocation = midi_event_buffer.bufferStart;
+    midi_event_buffer.pBufWriteLocation = midi_event_buffer.bufferStart;
+    return;
+}
+
+void parseMidiPacketsFromBuffer()
+{
+  /*
+ * Find first status byte
+ * Depending on status byte, set midi packet length
+ * Parse bytes into USB_AUDIO_MIDI_EVENT_PACKET
+ * Insert event packet into a midi packet buffer
+ * Do this until end of the buffer is reached
+ */
+    return;
+}
+//parseMidiPacketsFromBuffer(USB Rx Handle)
+
