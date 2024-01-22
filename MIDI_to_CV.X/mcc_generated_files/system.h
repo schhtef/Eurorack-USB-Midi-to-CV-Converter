@@ -48,9 +48,19 @@
 
 #include "xc.h"
 #include "stdint.h"
+#include "pin_manager.h"
+#include "..\app_device_audio_midi.h"
+
 
 #ifndef SYSTEM_H
 #define	SYSTEM_H
+
+typedef enum
+{
+    SYSTEM_STATE_USB_CONFIGURED,
+    SYSTEM_STATE_USB_START,
+    SYSTEM_STATE_USB_SUSPEND
+} SYSTEM_STATE;
 
 /**
  * @Param

@@ -119,14 +119,15 @@
 #include "interrupt_manager.h"
 #include "traps.h"
 
+
 void SYSTEM_Initialize(void)
 {
     PIN_MANAGER_Initialize();
     CLOCK_Initialize();
     INTERRUPT_Initialize();
     USBDeviceInit();
-    USBDeviceAttach();
     I2C1_Initialize();
+    APP_DeviceAudioMIDIInitialize();
 }
 
 /**

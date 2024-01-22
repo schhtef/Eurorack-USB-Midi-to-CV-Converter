@@ -18,6 +18,10 @@ To request to license the code under the MLA license (www.microchip.com/mla_lice
 please contact mla_licensing@microchip.com
 *******************************************************************************/
 //DOM-IGNORE-END
+#ifndef USB_DEVICE_MIDI_H
+#define USB_DEVICE_MIDI_H
+
+#include <stdint.h>
 
 typedef union
 {
@@ -27,22 +31,23 @@ typedef union
     {
         struct
         {
-            uint8_t CIN :4;
-            uint8_t CN  :4;
+            uint8_t CN :4;
+            uint8_t CIN  :4;
             uint8_t MIDI_0;
             uint8_t MIDI_1;
             uint8_t MIDI_2;
         };
         struct
         {
+            uint8_t CableNumber :4;
             uint8_t CodeIndexNumber :4;
-            uint8_t CableNumber     :4;
             uint8_t DATA_0;
-            uint8_t DATA_1;
+            uint8_t DATA_1; 
             uint8_t DATA_2;
         };
     };
-} USB_AUDIO_MIDI_EVENT_PACKET, *P_USB_AUDIO_MIDI_EVENT_PACKET;
+} USB_AUDIO_MIDI_EVENT_PACKET;
+//, *P_USB_AUDIO_MIDI_EVENT_PACKET
 
 /* Code Index Number (CIN) values */
 /*   Table 4-1 of midi10.pdf      */
@@ -67,3 +72,5 @@ typedef union
 #define MIDI_CIN_CHANNEL_PREASURE               0xD
 #define MIDI_CIN_PITCH_BEND_CHANGE              0xE
 #define MIDI_CIN_SINGLE_uint8_t                    0xF
+
+#endif

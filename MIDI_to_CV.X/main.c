@@ -58,32 +58,41 @@
  */
 int main(void)
 {
-    // SYSTEM_Initialize(SYSTEM_STATE_USB_START);
-
+    SYSTEM_STATE system_state = SYSTEM_STATE_USB_START;
+    SYSTEM_Initialize();
+    USB_INDICATION_SetLow(); //Make sure the LED is off until we know USB is configured
     USBDeviceInit();
-    // USBDeviceAttach();
+    APP_DeviceAudioMIDIInitialize();
     
     while(1)
     {
         USBDeviceTasks();
         if((USBGetDeviceState() < CONFIGURED_STATE) ||
                (USBIsDeviceSuspended() == true))
-            {
-                //Either the device is not configured or we are suspended,
-                // so we don't want to execute any USB related application code
-                continue;   //go back to the top of the while loop
-            }
-            else
-            {
-                //Otherwise we are free to run USB and non-USB related user 
-                //application code.
-            
-                //Pass in a Midi packet buffer object to receive some number of 
-                // midi packets enclosed in the USB buffer
-                 APP_DeviceAudioMIDITasks();
-                 // Determine what control information must be updated based on received packets, if any
-                 // Apply updated control information to the DAC and gate outputs
-            }
+        {
+            system_state = SYSTEM_STATE_USB_SUSPEND;
+            //Either the device is not configured or we are suspended,
+            // so we don't want to execute any USB related application code
+            continue;   //go back to the top of the while loop
+        }
+        else
+        {
+            system_state = SYSTEM_STATE_USB_CONFIGURED;
+            // Parse USB packets into MIDI packets and extract relevant information
+             APP_DeviceAudioMIDITasks();
+        }
+        
+        switch(system_state){
+            case SYSTEM_STATE_USB_SUSPEND:
+                USB_INDICATION_SetLow(); //Turn off the USB indicator if device is suspended
+                break;
+            case SYSTEM_STATE_USB_CONFIGURED:
+                USB_INDICATION_SetHigh(); // Turn on the USB indicator if it is configured
+                break;
+            default:
+                break;
+        }
+                
     }//end while
     return 1;
 }

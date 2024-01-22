@@ -16,7 +16,10 @@ limitations under the License.
 To request to license the code under the MLA license (www.microchip.com/mla_license), 
 please contact mla_licensing@microchip.com
 *******************************************************************************/
+#ifndef APP_DEVICE_AUDIO_MIDI_H
+#define APP_DEVICE_AUDIO_MIDI_H
 
+#include "usb_device_midi.h"
 /*********************************************************************
 * Function: void APP_DeviceAudioMIDIInitialize(void);
 *
@@ -62,3 +65,15 @@ void APP_DeviceAudioMIDITasks(void);
 *
 ********************************************************************/
 void APP_DeviceAudioMIDISOFHandler(void);
+
+
+void initializeMIDIEventBuffer(void);
+void handleMIDIPackets(void);
+void handleMIDIPacket(USB_AUDIO_MIDI_EVENT_PACKET* midi_event_packet);
+static void clearBuffer(void);
+unsigned int bufferSize(void);
+void addKeypress(uint8_t note, uint8_t velocity);
+void removeKeypress(uint8_t note);
+void setOutputs(void);
+
+#endif

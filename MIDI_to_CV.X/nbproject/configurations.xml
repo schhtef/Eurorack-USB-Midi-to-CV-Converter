@@ -31,6 +31,7 @@
       <itemPath>app_led_usb_status.h</itemPath>
       <itemPath>app_device_audio_midi.h</itemPath>
       <itemPath>usb_device_midi.h</itemPath>
+      <itemPath>led.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -66,6 +67,7 @@
       <itemPath>main.c</itemPath>
       <itemPath>app_device_audio_midi.c</itemPath>
       <itemPath>app_led_usb_status.c</itemPath>
+      <itemPath>led.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
