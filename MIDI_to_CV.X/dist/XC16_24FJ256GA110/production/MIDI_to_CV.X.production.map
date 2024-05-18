@@ -37,6 +37,7 @@ Command:
   build/XC16_24FJ256GA110/production/app_device_audio_midi.o \
   build/XC16_24FJ256GA110/production/app_led_usb_status.o \
   build/XC16_24FJ256GA110/production/led.o \
+  build/XC16_24FJ256GA110/production/mcp4728.o \
   --local-stack \
   --defsym=__MPLAB_BUILD=1 \
   -Tp24FJ32GU202.gld.00 \
@@ -124,11 +125,11 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x100               0x684           0x9c6  (2502)
 .const                       0x784                0xd2           0x13b  (315)
-.text                        0x856              0x1546          0x1fe9  (8169)
-.dinit                      0x1d9c                0x58            0x84  (132)
-.text                       0x1df4               0x134           0x1ce  (462)
+.text                        0x856              0x171e          0x22ad  (8877)
+.dinit                      0x1f74                0x58            0x84  (132)
+.text                       0x1fcc               0x172           0x22b  (555)
 
-                 Total "program" memory used (bytes):         0x2d3c  (11580) 35%
+                 Total "program" memory used (bytes):         0x305d  (12381) 37%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x2000]
@@ -138,7 +139,7 @@ section                    address      alignment gaps    total length  (dec)
 .nbss                        0x800                   0            0x56  (86)
 .ndata                       0x856                   0             0x2  (2)
 .bss                         0x858                   0            0x6c  (108)
-_0000000004AA3A0065aaa182     0xa00                   0            0x20  (32)
+_00000000049CBA006635c59f     0xa00                   0            0x20  (32)
 
                  Total "data" memory used (bytes):           0xe4  (228) 2%
 
@@ -251,9 +252,9 @@ External Symbols in Program Memory (by address):
                   0x00068e                  _memcpy
                   0x00069c                  _memset
                   0x000764                  ___expand_heap
-                  0x000778                  ___mulp32peds3
-                  0x000778                  ___mulp32eds3
                   0x000778                  ___mulsi3
+                  0x000778                  ___mulp32eds3
+                  0x000778                  ___mulp32peds3
                   0x000784                  _device_dsc
                   0x000796                  _configDescriptor1
                   0x0007fc                  _sd000
@@ -279,29 +280,39 @@ External Symbols in Program Memory (by address):
                   0x0019d4                  _APP_DeviceAudioMIDIInitialize
                   0x0019f6                  _APP_DeviceAudioMIDISOFHandler
                   0x001a08                  _APP_DeviceAudioMIDITasks
-                  0x001a4c                  _initializeMIDIEventBuffer
-                  0x001a72                  _handleMIDIPackets
-                  0x001ae0                  _handleMIDIPacket
-                  0x001b2a                  _bufferSize
-                  0x001b38                  _addKeypress
-                  0x001b60                  _removeKeypress
-                  0x001ba8                  _setOutputs
-                  0x001bc0                  _I2C1_Initialize
-                  0x001bf6                  _I2C1_ErrorCountGet
-                  0x001c40                  _I2C1_MasterWrite
-                  0x001c72                  _I2C1_MasterRead
-                  0x001ca4                  _I2C1_MasterTRBInsert
-                  0x001d1c                  _I2C1_MasterReadTRBBuild
-                  0x001d4c                  _I2C1_MasterWriteTRBBuild
-                  0x001d70                  _I2C1_MasterQueueIsEmpty
-                  0x001d86                  _I2C1_MasterQueueIsFull
-                  0x001df4                  _CLOCK_Initialize
-                  0x001e46                  _USER_USB_CALLBACK_EVENT_HANDLER
-                  0x001e7e                  _main
-                  0x001eb0                  _PIN_MANAGER_Initialize
-                  0x001ede                  _INTERRUPT_Initialize
-                  0x001f10                  _SYSTEM_Initialize
-                  0x001f22                  _APP_LEDUpdateUSBStatus
+                  0x001a4a                  _initializeMIDIEventBuffer
+                  0x001a70                  _handleMIDIPackets
+                  0x001ade                  _handleMIDIPacket
+                  0x001b28                  _bufferSize
+                  0x001b36                  _addKeypress
+                  0x001b5e                  _removeKeypress
+                  0x001ba6                  _setOutputs
+                  0x001bb4                  _write_to_DAC
+                  0x001bbc                  _I2C1_Initialize
+                  0x001bf2                  _I2C1_ErrorCountGet
+                  0x001c3c                  _I2C1_MasterWrite
+                  0x001c6e                  _I2C1_MasterRead
+                  0x001ca0                  _I2C1_MasterTRBInsert
+                  0x001d18                  _I2C1_MasterReadTRBBuild
+                  0x001d48                  _I2C1_MasterWriteTRBBuild
+                  0x001d6c                  _I2C1_MasterQueueIsEmpty
+                  0x001d82                  _I2C1_MasterQueueIsFull
+                  0x001d98                  _MCP4728_Write_VRef_Select
+                  0x001db6                  _MCP4728_Write_Gain_Select
+                  0x001dd6                  _MCP4728_Write_PWRDWN_Select
+                  0x001e12                  _MCP4728_Write_AllChannels_Same
+                  0x001e52                  _MCP4728_Write_AllChannels_Diff
+                  0x001eb0                  _MCP4728_Write_SingleChannel
+                  0x001ef2                  _MCP4728_Init
+                  0x001f42                  _MCP4728_Write_GeneralCall
+                  0x001f52                  _MCP4728_Write
+                  0x001fcc                  _CLOCK_Initialize
+                  0x00201e                  _main
+                  0x002062                  _SYSTEM_Initialize
+                  0x0020a0                  _USER_USB_CALLBACK_EVENT_HANDLER
+                  0x0020d8                  _PIN_MANAGER_Initialize
+                  0x002106                  _INTERRUPT_Initialize
+                  0x002138                  _APP_LEDUpdateUSBStatus
                   0x005700                  __FSEC.sec
 
 External Symbols in Program Memory (by name):
@@ -309,20 +320,29 @@ External Symbols in Program Memory (by name):
                   0x0019d4                  _APP_DeviceAudioMIDIInitialize
                   0x0019f6                  _APP_DeviceAudioMIDISOFHandler
                   0x001a08                  _APP_DeviceAudioMIDITasks
-                  0x001f22                  _APP_LEDUpdateUSBStatus
-                  0x001df4                  _CLOCK_Initialize
-                  0x001bf6                  _I2C1_ErrorCountGet
-                  0x001bc0                  _I2C1_Initialize
-                  0x001d70                  _I2C1_MasterQueueIsEmpty
-                  0x001d86                  _I2C1_MasterQueueIsFull
-                  0x001c72                  _I2C1_MasterRead
-                  0x001d1c                  _I2C1_MasterReadTRBBuild
-                  0x001ca4                  _I2C1_MasterTRBInsert
-                  0x001c40                  _I2C1_MasterWrite
-                  0x001d4c                  _I2C1_MasterWriteTRBBuild
-                  0x001ede                  _INTERRUPT_Initialize
-                  0x001eb0                  _PIN_MANAGER_Initialize
-                  0x001f10                  _SYSTEM_Initialize
+                  0x002138                  _APP_LEDUpdateUSBStatus
+                  0x001fcc                  _CLOCK_Initialize
+                  0x001bf2                  _I2C1_ErrorCountGet
+                  0x001bbc                  _I2C1_Initialize
+                  0x001d6c                  _I2C1_MasterQueueIsEmpty
+                  0x001d82                  _I2C1_MasterQueueIsFull
+                  0x001c6e                  _I2C1_MasterRead
+                  0x001d18                  _I2C1_MasterReadTRBBuild
+                  0x001ca0                  _I2C1_MasterTRBInsert
+                  0x001c3c                  _I2C1_MasterWrite
+                  0x001d48                  _I2C1_MasterWriteTRBBuild
+                  0x002106                  _INTERRUPT_Initialize
+                  0x001ef2                  _MCP4728_Init
+                  0x001f52                  _MCP4728_Write
+                  0x001e52                  _MCP4728_Write_AllChannels_Diff
+                  0x001e12                  _MCP4728_Write_AllChannels_Same
+                  0x001db6                  _MCP4728_Write_Gain_Select
+                  0x001f42                  _MCP4728_Write_GeneralCall
+                  0x001dd6                  _MCP4728_Write_PWRDWN_Select
+                  0x001eb0                  _MCP4728_Write_SingleChannel
+                  0x001d98                  _MCP4728_Write_VRef_Select
+                  0x0020d8                  _PIN_MANAGER_Initialize
+                  0x002062                  _SYSTEM_Initialize
                   0x000c78                  _USBCancelIO
                   0x000d9a                  _USBCtrlEPAllowDataStage
                   0x000d24                  _USBCtrlEPAllowStatusStage
@@ -340,7 +360,7 @@ External Symbols in Program Memory (by name):
                   0x001856                  _USBVBUSSessionValidStateGet
                   0x00084e                  _USB_CD_Ptr
                   0x000850                  _USB_SD_Ptr
-                  0x001e46                  _USER_USB_CALLBACK_EVENT_HANDLER
+                  0x0020a0                  _USER_USB_CALLBACK_EVENT_HANDLER
                   0x00024a                  __AddressError
                   0x00051a                  __DefaultInterrupt
                   0x005700                  __FSEC.sec
@@ -361,21 +381,22 @@ External Symbols in Program Memory (by name):
                   0x000152                  __data_init_da
                   0x00013c                  __psv_init
                   0x000100                  __resetPRI
-                  0x001b38                  _addKeypress
-                  0x001b2a                  _bufferSize
+                  0x001b36                  _addKeypress
+                  0x001b28                  _bufferSize
                   0x000796                  _configDescriptor1
                   0x000784                  _device_dsc
-                  0x001ae0                  _handleMIDIPacket
-                  0x001a72                  _handleMIDIPackets
-                  0x001a4c                  _initializeMIDIEventBuffer
-                  0x001e7e                  _main
+                  0x001ade                  _handleMIDIPacket
+                  0x001a70                  _handleMIDIPackets
+                  0x001a4a                  _initializeMIDIEventBuffer
+                  0x00201e                  _main
                   0x00068e                  _memcpy
                   0x00069c                  _memset
-                  0x001b60                  _removeKeypress
+                  0x001b5e                  _removeKeypress
                   0x0007fc                  _sd000
                   0x000800                  _sd001
                   0x000834                  _sd002
-                  0x001ba8                  _setOutputs
+                  0x001ba6                  _setOutputs
+                  0x001bb4                  _write_to_DAC
 
 Memory Configuration
 
@@ -421,6 +442,7 @@ LOAD build/XC16_24FJ256GA110/production/main.o
 LOAD build/XC16_24FJ256GA110/production/app_device_audio_midi.o
 LOAD build/XC16_24FJ256GA110/production/app_led_usb_status.o
 LOAD build/XC16_24FJ256GA110/production/led.o
+LOAD build/XC16_24FJ256GA110/production/mcp4728.o
                     0x0001                  __MPLAB_BUILD = 0x1
 LOAD pPIC24Fxxx
 LOAD c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libfx-elf.a
@@ -563,7 +585,7 @@ __FDEVOPT1
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x881a
+.debug_info       0x000000       0x8f62
  *(.debug_info)
  .debug_info      0x000000        0x170 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_generic.o
  .debug_info      0x000170        0x596 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_events.o
@@ -574,18 +596,19 @@ __FDEVOPT1
  .debug_info      0x004bb3        0x4d3 build/XC16_24FJ256GA110/production/mcc_generated_files/traps.o
  .debug_info      0x005086       0x100f build/XC16_24FJ256GA110/production/mcc_generated_files/i2c1.o
  .debug_info      0x006095        0x4b7 build/XC16_24FJ256GA110/production/mcc_generated_files/clock.o
- .debug_info      0x00654c        0x371 build/XC16_24FJ256GA110/production/mcc_generated_files/system.o
- .debug_info      0x0068bd        0x3a5 build/XC16_24FJ256GA110/production/mcc_generated_files/pin_manager.o
- .debug_info      0x006c62        0x42f build/XC16_24FJ256GA110/production/mcc_generated_files/interrupt_manager.o
- .debug_info      0x007091        0x14f build/XC16_24FJ256GA110/production/configuration_bits.o
- .debug_info      0x0071e0        0x147 build/XC16_24FJ256GA110/production/interrupts.o
- .debug_info      0x007327        0x516 build/XC16_24FJ256GA110/production/main.o
- .debug_info      0x00783d        0xdd3 build/XC16_24FJ256GA110/production/app_device_audio_midi.o
- .debug_info      0x008610        0x17e build/XC16_24FJ256GA110/production/app_led_usb_status.o
- .debug_info      0x00878e         0x8c c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(mulsi3.DA_o)
+ .debug_info      0x00654c        0x40e build/XC16_24FJ256GA110/production/mcc_generated_files/system.o
+ .debug_info      0x00695a        0x3a5 build/XC16_24FJ256GA110/production/mcc_generated_files/pin_manager.o
+ .debug_info      0x006cff        0x42f build/XC16_24FJ256GA110/production/mcc_generated_files/interrupt_manager.o
+ .debug_info      0x00712e        0x14f build/XC16_24FJ256GA110/production/configuration_bits.o
+ .debug_info      0x00727d        0x147 build/XC16_24FJ256GA110/production/interrupts.o
+ .debug_info      0x0073c4        0x54a build/XC16_24FJ256GA110/production/main.o
+ .debug_info      0x00790e        0xdf3 build/XC16_24FJ256GA110/production/app_device_audio_midi.o
+ .debug_info      0x008701        0x17e build/XC16_24FJ256GA110/production/app_led_usb_status.o
+ .debug_info      0x00887f        0x657 build/XC16_24FJ256GA110/production/mcp4728.o
+ .debug_info      0x008ed6         0x8c c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(mulsi3.DA_o)
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0xfa0
+.debug_abbrev     0x000000       0x10fd
  *(.debug_abbrev)
  .debug_abbrev    0x000000         0x1f build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_generic.o
  .debug_abbrev    0x00001f         0x7c build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_events.o
@@ -596,19 +619,20 @@ __FDEVOPT1
  .debug_abbrev    0x000640        0x100 build/XC16_24FJ256GA110/production/mcc_generated_files/traps.o
  .debug_abbrev    0x000740        0x212 build/XC16_24FJ256GA110/production/mcc_generated_files/i2c1.o
  .debug_abbrev    0x000952         0xc5 build/XC16_24FJ256GA110/production/mcc_generated_files/clock.o
- .debug_abbrev    0x000a17         0xb4 build/XC16_24FJ256GA110/production/mcc_generated_files/system.o
- .debug_abbrev    0x000acb         0x59 build/XC16_24FJ256GA110/production/mcc_generated_files/pin_manager.o
- .debug_abbrev    0x000b24          0x1 build/XC16_24FJ256GA110/production/mcc_generated_files/mcc.o
- .debug_abbrev    0x000b25         0xb4 build/XC16_24FJ256GA110/production/mcc_generated_files/interrupt_manager.o
- .debug_abbrev    0x000bd9         0x1f build/XC16_24FJ256GA110/production/configuration_bits.o
- .debug_abbrev    0x000bf8         0x1f build/XC16_24FJ256GA110/production/interrupts.o
- .debug_abbrev    0x000c17         0xdd build/XC16_24FJ256GA110/production/main.o
- .debug_abbrev    0x000cf4        0x263 build/XC16_24FJ256GA110/production/app_device_audio_midi.o
- .debug_abbrev    0x000f57         0x34 build/XC16_24FJ256GA110/production/app_led_usb_status.o
- .debug_abbrev    0x000f8b          0x1 build/XC16_24FJ256GA110/production/led.o
- .debug_abbrev    0x000f8c         0x14 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(mulsi3.DA_o)
+ .debug_abbrev    0x000a17         0xf3 build/XC16_24FJ256GA110/production/mcc_generated_files/system.o
+ .debug_abbrev    0x000b0a         0x59 build/XC16_24FJ256GA110/production/mcc_generated_files/pin_manager.o
+ .debug_abbrev    0x000b63          0x1 build/XC16_24FJ256GA110/production/mcc_generated_files/mcc.o
+ .debug_abbrev    0x000b64         0xb4 build/XC16_24FJ256GA110/production/mcc_generated_files/interrupt_manager.o
+ .debug_abbrev    0x000c18         0x1f build/XC16_24FJ256GA110/production/configuration_bits.o
+ .debug_abbrev    0x000c37         0x1f build/XC16_24FJ256GA110/production/interrupts.o
+ .debug_abbrev    0x000c56         0xfc build/XC16_24FJ256GA110/production/main.o
+ .debug_abbrev    0x000d52        0x278 build/XC16_24FJ256GA110/production/app_device_audio_midi.o
+ .debug_abbrev    0x000fca         0x34 build/XC16_24FJ256GA110/production/app_led_usb_status.o
+ .debug_abbrev    0x000ffe          0x1 build/XC16_24FJ256GA110/production/led.o
+ .debug_abbrev    0x000fff         0xea build/XC16_24FJ256GA110/production/mcp4728.o
+ .debug_abbrev    0x0010e9         0x14 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(mulsi3.DA_o)
 
-.debug_line       0x000000       0x13bd
+.debug_line       0x000000       0x14de
  *(.debug_line)
  .debug_line      0x000000         0x1a build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_generic.o
  .debug_line      0x00001a         0xdc build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_events.o
@@ -619,19 +643,20 @@ __FDEVOPT1
  .debug_line      0x0007a8        0x153 build/XC16_24FJ256GA110/production/mcc_generated_files/traps.o
  .debug_line      0x0008fb        0x203 build/XC16_24FJ256GA110/production/mcc_generated_files/i2c1.o
  .debug_line      0x000afe        0x128 build/XC16_24FJ256GA110/production/mcc_generated_files/clock.o
- .debug_line      0x000c26        0x120 build/XC16_24FJ256GA110/production/mcc_generated_files/system.o
- .debug_line      0x000d46        0x12e build/XC16_24FJ256GA110/production/mcc_generated_files/pin_manager.o
- .debug_line      0x000e74         0x1a build/XC16_24FJ256GA110/production/mcc_generated_files/mcc.o
- .debug_line      0x000e8e        0x126 build/XC16_24FJ256GA110/production/mcc_generated_files/interrupt_manager.o
- .debug_line      0x000fb4         0x1a build/XC16_24FJ256GA110/production/configuration_bits.o
- .debug_line      0x000fce         0x1a build/XC16_24FJ256GA110/production/interrupts.o
- .debug_line      0x000fe8        0x15d build/XC16_24FJ256GA110/production/main.o
- .debug_line      0x001145        0x1e0 build/XC16_24FJ256GA110/production/app_device_audio_midi.o
- .debug_line      0x001325         0x44 build/XC16_24FJ256GA110/production/app_led_usb_status.o
- .debug_line      0x001369         0x1a build/XC16_24FJ256GA110/production/led.o
- .debug_line      0x001383         0x3a c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(mulsi3.DA_o)
+ .debug_line      0x000c26        0x149 build/XC16_24FJ256GA110/production/mcc_generated_files/system.o
+ .debug_line      0x000d6f        0x12e build/XC16_24FJ256GA110/production/mcc_generated_files/pin_manager.o
+ .debug_line      0x000e9d         0x1a build/XC16_24FJ256GA110/production/mcc_generated_files/mcc.o
+ .debug_line      0x000eb7        0x126 build/XC16_24FJ256GA110/production/mcc_generated_files/interrupt_manager.o
+ .debug_line      0x000fdd         0x1a build/XC16_24FJ256GA110/production/configuration_bits.o
+ .debug_line      0x000ff7         0x1a build/XC16_24FJ256GA110/production/interrupts.o
+ .debug_line      0x001011        0x163 build/XC16_24FJ256GA110/production/main.o
+ .debug_line      0x001174        0x1e2 build/XC16_24FJ256GA110/production/app_device_audio_midi.o
+ .debug_line      0x001356         0x44 build/XC16_24FJ256GA110/production/app_led_usb_status.o
+ .debug_line      0x00139a         0x1a build/XC16_24FJ256GA110/production/led.o
+ .debug_line      0x0013b4         0xf0 build/XC16_24FJ256GA110/production/mcp4728.o
+ .debug_line      0x0014a4         0x3a c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(mulsi3.DA_o)
 
-.debug_frame      0x000000        0x922
+.debug_frame      0x000000        0xa3a
  *(.debug_frame)
  .debug_frame     0x000000         0x2e build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_events.o
  .debug_frame     0x00002e         0xca build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_hal_16bit.o
@@ -643,10 +668,11 @@ __FDEVOPT1
  .debug_frame     0x000738         0x2e build/XC16_24FJ256GA110/production/mcc_generated_files/pin_manager.o
  .debug_frame     0x000766         0x2e build/XC16_24FJ256GA110/production/mcc_generated_files/interrupt_manager.o
  .debug_frame     0x000794         0x2e build/XC16_24FJ256GA110/production/main.o
- .debug_frame     0x0007c2        0x132 build/XC16_24FJ256GA110/production/app_device_audio_midi.o
- .debug_frame     0x0008f4         0x2e build/XC16_24FJ256GA110/production/app_led_usb_status.o
+ .debug_frame     0x0007c2        0x14c build/XC16_24FJ256GA110/production/app_device_audio_midi.o
+ .debug_frame     0x00090e         0x2e build/XC16_24FJ256GA110/production/app_led_usb_status.o
+ .debug_frame     0x00093c         0xfe build/XC16_24FJ256GA110/production/mcp4728.o
 
-.debug_str        0x000000        0x4b8
+.debug_str        0x000000        0x4d0
  *(.debug_str)
  .debug_str       0x000000         0x2a build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_descriptors.o
  .debug_str       0x00002a         0xa1 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_hal_16bit.o
@@ -658,6 +684,7 @@ __FDEVOPT1
  .debug_str       0x00042d          0x9 build/XC16_24FJ256GA110/production/mcc_generated_files/interrupt_manager.o
  .debug_str       0x000436         0x23 build/XC16_24FJ256GA110/production/main.o
  .debug_str       0x000459         0x5f build/XC16_24FJ256GA110/production/app_device_audio_midi.o
+ .debug_str       0x0004b8         0x18 build/XC16_24FJ256GA110/production/mcp4728.o
 
 .debug_loc
  *(.debug_loc)
@@ -666,7 +693,7 @@ __FDEVOPT1
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x86d
+                  0x000000        0x993
  *(.debug_pubnames)
  .debug_pubnames
                   0x000000         0x36 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_events.o
@@ -691,14 +718,16 @@ __FDEVOPT1
  .debug_pubnames
                   0x0006ff         0x1b build/XC16_24FJ256GA110/production/main.o
  .debug_pubnames
-                  0x00071a        0x126 build/XC16_24FJ256GA110/production/app_device_audio_midi.o
+                  0x00071a        0x137 build/XC16_24FJ256GA110/production/app_device_audio_midi.o
  .debug_pubnames
-                  0x000840         0x2d build/XC16_24FJ256GA110/production/app_led_usb_status.o
+                  0x000851         0x2d build/XC16_24FJ256GA110/production/app_led_usb_status.o
+ .debug_pubnames
+                  0x00087e        0x115 build/XC16_24FJ256GA110/production/mcp4728.o
 
 .debug_ranges
  *(.debug_ranges)
 
-.debug_aranges    0x000000        0x140
+.debug_aranges    0x000000        0x158
  *(.debug_aranges)
  .debug_aranges
                   0x000000         0x18 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_events.o
@@ -725,7 +754,9 @@ __FDEVOPT1
  .debug_aranges
                   0x000108         0x18 build/XC16_24FJ256GA110/production/app_led_usb_status.o
  .debug_aranges
-                  0x000120         0x20 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(mulsi3.DA_o)
+                  0x000120         0x18 build/XC16_24FJ256GA110/production/mcp4728.o
+ .debug_aranges
+                  0x000138         0x20 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(mulsi3.DA_o)
                     0x0000                  WREG0 = 0x0
                     0x0000                  _WREG0 = 0x0
                     0x0002                  WREG1 = 0x2
@@ -2062,104 +2093,108 @@ LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x000140        0x934
+                  0x000158        0x9ad
  .debug_pubtypes
-                  0x000140         0x12 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_generic.o
+                  0x000158         0x12 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_generic.o
  .debug_pubtypes
-                  0x000152         0x2d build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_events.o
+                  0x00016a         0x2d build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_events.o
  .debug_pubtypes
-                  0x00017f         0x60 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_descriptors.o
+                  0x000197         0x60 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_descriptors.o
  .debug_pubtypes
-                  0x0001df        0x172 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_hal_16bit.o
+                  0x0001f7        0x172 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_hal_16bit.o
  .debug_pubtypes
-                  0x000351        0x286 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device.o
+                  0x000369        0x286 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device.o
  .debug_pubtypes
-                  0x0005d7         0x12 build/XC16_24FJ256GA110/production/usb_events.o
+                  0x0005ef         0x12 build/XC16_24FJ256GA110/production/usb_events.o
  .debug_pubtypes
-                  0x0005e9         0x94 build/XC16_24FJ256GA110/production/mcc_generated_files/traps.o
+                  0x000601         0x94 build/XC16_24FJ256GA110/production/mcc_generated_files/traps.o
  .debug_pubtypes
-                  0x00067d        0x13e build/XC16_24FJ256GA110/production/mcc_generated_files/i2c1.o
+                  0x000695        0x13e build/XC16_24FJ256GA110/production/mcc_generated_files/i2c1.o
  .debug_pubtypes
-                  0x0007bb         0x4c build/XC16_24FJ256GA110/production/mcc_generated_files/clock.o
+                  0x0007d3         0x4c build/XC16_24FJ256GA110/production/mcc_generated_files/clock.o
  .debug_pubtypes
-                  0x000807         0x42 build/XC16_24FJ256GA110/production/mcc_generated_files/system.o
+                  0x00081f         0x63 build/XC16_24FJ256GA110/production/mcc_generated_files/system.o
  .debug_pubtypes
-                  0x000849         0x1f build/XC16_24FJ256GA110/production/mcc_generated_files/pin_manager.o
+                  0x000882         0x1f build/XC16_24FJ256GA110/production/mcc_generated_files/pin_manager.o
  .debug_pubtypes
-                  0x000868         0x3c build/XC16_24FJ256GA110/production/mcc_generated_files/interrupt_manager.o
+                  0x0008a1         0x3c build/XC16_24FJ256GA110/production/mcc_generated_files/interrupt_manager.o
  .debug_pubtypes
-                  0x0008a4         0x12 build/XC16_24FJ256GA110/production/configuration_bits.o
+                  0x0008dd         0x12 build/XC16_24FJ256GA110/production/configuration_bits.o
  .debug_pubtypes
-                  0x0008b6         0x12 build/XC16_24FJ256GA110/production/interrupts.o
+                  0x0008ef         0x12 build/XC16_24FJ256GA110/production/interrupts.o
  .debug_pubtypes
-                  0x0008c8         0x83 build/XC16_24FJ256GA110/production/main.o
+                  0x000901         0x83 build/XC16_24FJ256GA110/production/main.o
  .debug_pubtypes
-                  0x00094b        0x117 build/XC16_24FJ256GA110/production/app_device_audio_midi.o
+                  0x000984        0x117 build/XC16_24FJ256GA110/production/app_device_audio_midi.o
  .debug_pubtypes
-                  0x000a62         0x12 build/XC16_24FJ256GA110/production/app_led_usb_status.o
+                  0x000a9b         0x12 build/XC16_24FJ256GA110/production/app_led_usb_status.o
+ .debug_pubtypes
+                  0x000aad         0x58 build/XC16_24FJ256GA110/production/mcp4728.o
 
 __c30_signature
-                  0x000a74         0xb4
+                  0x000b05         0xba
  __c30_signature
-                  0x000a74          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_generic.o
+                  0x000b05          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_generic.o
  __c30_signature
-                  0x000a7a          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_events.o
+                  0x000b0b          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_events.o
  __c30_signature
-                  0x000a80          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_descriptors.o
+                  0x000b11          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_descriptors.o
  __c30_signature
-                  0x000a86          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_hal_16bit.o
+                  0x000b17          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_hal_16bit.o
  __c30_signature
-                  0x000a8c          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device.o
+                  0x000b1d          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device.o
  __c30_signature
-                  0x000a92          0x6 build/XC16_24FJ256GA110/production/usb_events.o
+                  0x000b23          0x6 build/XC16_24FJ256GA110/production/usb_events.o
  __c30_signature
-                  0x000a98          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/traps.o
+                  0x000b29          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/traps.o
  __c30_signature
-                  0x000a9e          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/i2c1.o
+                  0x000b2f          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/i2c1.o
  __c30_signature
-                  0x000aa4          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/clock.o
+                  0x000b35          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/clock.o
  __c30_signature
-                  0x000aaa          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/system.o
+                  0x000b3b          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/system.o
  __c30_signature
-                  0x000ab0          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/pin_manager.o
+                  0x000b41          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/pin_manager.o
  __c30_signature
-                  0x000ab6          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/mcc.o
+                  0x000b47          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/mcc.o
  __c30_signature
-                  0x000abc          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/interrupt_manager.o
+                  0x000b4d          0x6 build/XC16_24FJ256GA110/production/mcc_generated_files/interrupt_manager.o
  __c30_signature
-                  0x000ac2          0x6 build/XC16_24FJ256GA110/production/configuration_bits.o
+                  0x000b53          0x6 build/XC16_24FJ256GA110/production/configuration_bits.o
  __c30_signature
-                  0x000ac8          0x6 build/XC16_24FJ256GA110/production/interrupts.o
+                  0x000b59          0x6 build/XC16_24FJ256GA110/production/interrupts.o
  __c30_signature
-                  0x000ace          0x6 build/XC16_24FJ256GA110/production/main.o
+                  0x000b5f          0x6 build/XC16_24FJ256GA110/production/main.o
  __c30_signature
-                  0x000ad4          0x6 build/XC16_24FJ256GA110/production/app_device_audio_midi.o
+                  0x000b65          0x6 build/XC16_24FJ256GA110/production/app_device_audio_midi.o
  __c30_signature
-                  0x000ada          0x6 build/XC16_24FJ256GA110/production/app_led_usb_status.o
+                  0x000b6b          0x6 build/XC16_24FJ256GA110/production/app_led_usb_status.o
  __c30_signature
-                  0x000ae0          0x6 build/XC16_24FJ256GA110/production/led.o
+                  0x000b71          0x6 build/XC16_24FJ256GA110/production/led.o
  __c30_signature
-                  0x000ae6          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(crt0_extended24.o)
+                  0x000b77          0x6 build/XC16_24FJ256GA110/production/mcp4728.o
  __c30_signature
-                  0x000aec          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(data_init_24.o)
+                  0x000b7d          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(crt0_extended24.o)
  __c30_signature
-                  0x000af2          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-elf.a(lite_free.DA_o)
+                  0x000b83          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(data_init_24.o)
  __c30_signature
-                  0x000af8          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-elf.a(lite_malloc.DA_o)
+                  0x000b89          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-elf.a(lite_free.DA_o)
  __c30_signature
-                  0x000afe          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-elf.a(memcpy.DA_o)
+                  0x000b8f          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-elf.a(lite_malloc.DA_o)
  __c30_signature
-                  0x000b04          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-elf.a(memset.DA_o)
+                  0x000b95          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-elf.a(memcpy.DA_o)
  __c30_signature
-                  0x000b0a          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-elf.a(__errno_location.DA_o)
+                  0x000b9b          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-elf.a(memset.DA_o)
  __c30_signature
-                  0x000b10          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-elf.a(expand_heap.DA_o)
+                  0x000ba1          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-elf.a(__errno_location.DA_o)
  __c30_signature
-                  0x000b16          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(sbrkda.Meo)
+                  0x000ba7          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-elf.a(expand_heap.DA_o)
  __c30_signature
-                  0x000b1c          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(mulsi3.DA_o)
+                  0x000bad          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(sbrkda.Meo)
  __c30_signature
-                  0x000b22          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(brkda.Meo)
+                  0x000bb3          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(mulsi3.DA_o)
+ __c30_signature
+                  0x000bb9          0x6 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(brkda.Meo)
 
 .nbss               0x0800         0x56
  .nbss              0x0800         0x26 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device.o
@@ -2195,9 +2230,9 @@ __c30_signature
 .ndata              0x0856          0x2
  .ndata             0x0856          0x2 build/XC16_24FJ256GA110/production/mcc_generated_files/traps.o
 
-_0000000004AA3A0065aaa182
+_00000000049CBA006635c59f
                     0x0a00         0x20
- _0000000004AA3A0065aaa182
+ _00000000049CBA006635c59f
                     0x0a00         0x20 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device.o
                     0x0a00                  _BDT
 
@@ -2314,7 +2349,7 @@ _0000000004AA3A0065aaa182
                     0x884e                  _USB_CD_Ptr
                     0x8850                  _USB_SD_Ptr
 
-.text             0x000856       0x1546
+.text             0x000856       0x171e
  .text            0x000856        0xf6a build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device.o
                   0x000856                  _USBDeviceInit
                   0x000948                  _USBDeviceTasks
@@ -2332,45 +2367,56 @@ _0000000004AA3A0065aaa182
                   0x001856                  _USBVBUSSessionValidStateGet
                   0x0018e0                  _USBMaskAllUSBInterrupts
                   0x0018fa                  _USBRestoreUSBInterrupts
- .text            0x0019d4        0x1ec build/XC16_24FJ256GA110/production/app_device_audio_midi.o
+ .text            0x0019d4        0x1e8 build/XC16_24FJ256GA110/production/app_device_audio_midi.o
                   0x0019d4                  _APP_DeviceAudioMIDIInitialize
                   0x0019f6                  _APP_DeviceAudioMIDISOFHandler
                   0x001a08                  _APP_DeviceAudioMIDITasks
-                  0x001a4c                  _initializeMIDIEventBuffer
-                  0x001a72                  _handleMIDIPackets
-                  0x001ae0                  _handleMIDIPacket
-                  0x001b2a                  _bufferSize
-                  0x001b38                  _addKeypress
-                  0x001b60                  _removeKeypress
-                  0x001ba8                  _setOutputs
- .text            0x001bc0        0x1dc build/XC16_24FJ256GA110/production/mcc_generated_files/i2c1.o
-                  0x001bc0                  _I2C1_Initialize
-                  0x001bf6                  _I2C1_ErrorCountGet
-                  0x001c40                  _I2C1_MasterWrite
-                  0x001c72                  _I2C1_MasterRead
-                  0x001ca4                  _I2C1_MasterTRBInsert
-                  0x001d1c                  _I2C1_MasterReadTRBBuild
-                  0x001d4c                  _I2C1_MasterWriteTRBBuild
-                  0x001d70                  _I2C1_MasterQueueIsEmpty
-                  0x001d86                  _I2C1_MasterQueueIsFull
+                  0x001a4a                  _initializeMIDIEventBuffer
+                  0x001a70                  _handleMIDIPackets
+                  0x001ade                  _handleMIDIPacket
+                  0x001b28                  _bufferSize
+                  0x001b36                  _addKeypress
+                  0x001b5e                  _removeKeypress
+                  0x001ba6                  _setOutputs
+                  0x001bb4                  _write_to_DAC
+ .text            0x001bbc        0x1dc build/XC16_24FJ256GA110/production/mcc_generated_files/i2c1.o
+                  0x001bbc                  _I2C1_Initialize
+                  0x001bf2                  _I2C1_ErrorCountGet
+                  0x001c3c                  _I2C1_MasterWrite
+                  0x001c6e                  _I2C1_MasterRead
+                  0x001ca0                  _I2C1_MasterTRBInsert
+                  0x001d18                  _I2C1_MasterReadTRBBuild
+                  0x001d48                  _I2C1_MasterWriteTRBBuild
+                  0x001d6c                  _I2C1_MasterQueueIsEmpty
+                  0x001d82                  _I2C1_MasterQueueIsFull
+ .text            0x001d98        0x1dc build/XC16_24FJ256GA110/production/mcp4728.o
+                  0x001d98                  _MCP4728_Write_VRef_Select
+                  0x001db6                  _MCP4728_Write_Gain_Select
+                  0x001dd6                  _MCP4728_Write_PWRDWN_Select
+                  0x001e12                  _MCP4728_Write_AllChannels_Same
+                  0x001e52                  _MCP4728_Write_AllChannels_Diff
+                  0x001eb0                  _MCP4728_Write_SingleChannel
+                  0x001ef2                  _MCP4728_Init
+                  0x001f42                  _MCP4728_Write_GeneralCall
+                  0x001f52                  _MCP4728_Write
 
-.dinit            0x001d9c         0x58
- .dinit           0x001d9c         0x58 data_init
+.dinit            0x001f74         0x58
+ .dinit           0x001f74         0x58 data_init
 
-.text             0x001df4        0x134
- .text            0x001df4         0x52 build/XC16_24FJ256GA110/production/mcc_generated_files/clock.o
-                  0x001df4                  _CLOCK_Initialize
- .text            0x001e46         0x38 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_events.o
-                  0x001e46                  _USER_USB_CALLBACK_EVENT_HANDLER
- .text            0x001e7e         0x32 build/XC16_24FJ256GA110/production/main.o
-                  0x001e7e                  _main
- .text            0x001eb0         0x2e build/XC16_24FJ256GA110/production/mcc_generated_files/pin_manager.o
-                  0x001eb0                  _PIN_MANAGER_Initialize
- .text            0x001ede         0x1a build/XC16_24FJ256GA110/production/mcc_generated_files/interrupt_manager.o
-                  0x001ede                  _INTERRUPT_Initialize
- .text            0x001ef8         0x18 build/XC16_24FJ256GA110/production/mcc_generated_files/traps.o
-                  0x001ef8                  _TRAPS_halt_on_error
- .text            0x001f10         0x12 build/XC16_24FJ256GA110/production/mcc_generated_files/system.o
-                  0x001f10                  _SYSTEM_Initialize
- .text            0x001f22          0x6 build/XC16_24FJ256GA110/production/app_led_usb_status.o
-                  0x001f22                  _APP_LEDUpdateUSBStatus
+.text             0x001fcc        0x172
+ .text            0x001fcc         0x52 build/XC16_24FJ256GA110/production/mcc_generated_files/clock.o
+                  0x001fcc                  _CLOCK_Initialize
+ .text            0x00201e         0x44 build/XC16_24FJ256GA110/production/main.o
+                  0x00201e                  _main
+ .text            0x002062         0x3e build/XC16_24FJ256GA110/production/mcc_generated_files/system.o
+                  0x002062                  _SYSTEM_Initialize
+ .text            0x0020a0         0x38 build/XC16_24FJ256GA110/production/mcc_generated_files/usb/usb_device_events.o
+                  0x0020a0                  _USER_USB_CALLBACK_EVENT_HANDLER
+ .text            0x0020d8         0x2e build/XC16_24FJ256GA110/production/mcc_generated_files/pin_manager.o
+                  0x0020d8                  _PIN_MANAGER_Initialize
+ .text            0x002106         0x1a build/XC16_24FJ256GA110/production/mcc_generated_files/interrupt_manager.o
+                  0x002106                  _INTERRUPT_Initialize
+ .text            0x002120         0x18 build/XC16_24FJ256GA110/production/mcc_generated_files/traps.o
+                  0x002120                  _TRAPS_halt_on_error
+ .text            0x002138          0x6 build/XC16_24FJ256GA110/production/app_led_usb_status.o
+                  0x002138                  _APP_LEDUpdateUSBStatus

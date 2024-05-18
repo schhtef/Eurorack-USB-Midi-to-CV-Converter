@@ -118,6 +118,7 @@
 #include "usb/usb.h"
 #include "interrupt_manager.h"
 #include "traps.h"
+#include "../mcp4728.h"
 
 
 void SYSTEM_Initialize(void)
@@ -127,6 +128,14 @@ void SYSTEM_Initialize(void)
     INTERRUPT_Initialize();
     USBDeviceInit();
     I2C1_Initialize();
+    // DAC Initialization
+    dacChannelConfig DAC_Config;
+    DAC_Config.channelVref=1;
+    DAC_Config.channel_Gain = 1;
+    MCP4728_Init(DAC_Config);
+    MCP4728_Write_VRef_Select(DAC_Config);
+    MCP4728_Write_Gain_Select(DAC_Config);
+    
     APP_DeviceAudioMIDIInitialize();
 }
 

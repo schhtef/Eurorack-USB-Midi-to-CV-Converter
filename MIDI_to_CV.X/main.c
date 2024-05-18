@@ -61,9 +61,7 @@ int main(void)
     SYSTEM_STATE system_state = SYSTEM_STATE_USB_START;
     SYSTEM_Initialize();
     USB_INDICATION_SetLow(); //Make sure the LED is off until we know USB is configured
-    USBDeviceInit();
     APP_DeviceAudioMIDIInitialize();
-    
     while(1)
     {
         USBDeviceTasks();
@@ -71,6 +69,7 @@ int main(void)
                (USBIsDeviceSuspended() == true))
         {
             system_state = SYSTEM_STATE_USB_SUSPEND;
+            
             //Either the device is not configured or we are suspended,
             // so we don't want to execute any USB related application code
             continue;   //go back to the top of the while loop
@@ -78,8 +77,9 @@ int main(void)
         else
         {
             system_state = SYSTEM_STATE_USB_CONFIGURED;
+            
             // Parse USB packets into MIDI packets and extract relevant information
-             APP_DeviceAudioMIDITasks();
+            APP_DeviceAudioMIDITasks();
         }
         
         switch(system_state){
@@ -92,7 +92,7 @@ int main(void)
             default:
                 break;
         }
-                
+        MCP4728_Write_AllChannels_Same(3000);  
     }//end while
     return 1;
 }

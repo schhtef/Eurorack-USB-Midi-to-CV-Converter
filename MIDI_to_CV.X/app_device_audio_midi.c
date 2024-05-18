@@ -28,6 +28,7 @@ please contact mla_licensing@microchip.com
 #include "usb_device_midi.h"
 #include "app_device_audio_midi.h"
 #include "mcc_generated_files/pin_manager.h"
+#include "mcp4728.h"
 
 
 /** VARIABLES ******************************************************/
@@ -162,7 +163,7 @@ void APP_DeviceAudioMIDITasks()
         //Read data from handle
         //Parse into separate MIDI messages
         handleMIDIPackets();
-        clearBuffer();
+        //clearBuffer();
         setOutputs();
         //setControlOutputs();
         //Get ready for next packet (this will overwrite the old data)
@@ -247,6 +248,7 @@ void handleMIDIPacket(USB_AUDIO_MIDI_EVENT_PACKET* midi_event_packet)
 }
 
 static void clearBuffer() {
+    //This is breaking the midi usb driver for some reason
     memset(midi_event_buffer.pBufWriteLocation, 0x00, bufferSize());
 }
 
@@ -286,12 +288,18 @@ void setOutputs()
 {
     // If the keypress buffer is not empty, we are currently holding a note and
     // the GATE LED should be set
+    //MCP4728_Write_SingleChannel(1,4095);
     if(keypressBuffer != NULL)
     {
-        GATE_SetHigh();
+        //GATE_SetHigh();
+        //int note_dec = noteToDecimal(keypressBuffer->note)
+        //MCP4728_Write_SingleChannel(1,note_dec, );
+        //Set output note on DAC
+        //Set note velocity on DAC
     }
     else if(keypressBuffer == NULL)
     {
-        GATE_SetLow();
+        //GATE_SetLow();
     }
+    GATE_SetHigh();
 }

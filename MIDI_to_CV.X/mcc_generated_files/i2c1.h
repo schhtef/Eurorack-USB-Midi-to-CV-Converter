@@ -157,7 +157,7 @@ typedef struct
 
         uint8_t         writeBuffer[3];
         uint8_t         *pD;
-        uint16_t        counter, timeOut, slaveTimeOut;
+        uint16_t        counter, timeOut, slaveTimeOut;*
 
         I2C1_MESSAGE_STATUS status = I2C1_MESSAGE_PENDING;
 

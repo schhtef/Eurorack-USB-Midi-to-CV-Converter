@@ -756,7 +756,7 @@
     <code>
     // Sets the RB7 as an input
     VBUS_SENSE_SetDigitalInput();
-    </code>
+    </code> 
 
 */
 #define VBUS_SENSE_SetDigitalInput()  (_TRISB7 = 1)
