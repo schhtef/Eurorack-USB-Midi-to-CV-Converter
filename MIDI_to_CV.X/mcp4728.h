@@ -11,8 +11,8 @@
 #define	MCP4728_H
 #include <xc.h> // include processor files - each processor file is guarded. 
 #include <i2c1.h>
-#define SLAVE_I2C_GENERIC_RETRY_MAX           100
-#define SLAVE_I2C_GENERIC_DEVICE_TIMEOUT      50   // define slave timeout 
+#define SLAVE_I2C_GENERIC_RETRY_MAX           1000
+#define SLAVE_I2C_GENERIC_DEVICE_TIMEOUT      500   // define slave timeout 
 
 typedef struct
 {
@@ -46,7 +46,7 @@ void MCP4728_Write(uint8_t address, uint8_t *data, uint16_t length);
 #define MCP4728_CMD_GAINWRITE		0xC0
 #define MCP4728_CMD_PWRDWNWRITE		0xA0
 
-#define MCP4728_BASEADDR			0x60<<1 //Also just 0xC0?
+#define MCP4728_BASEADDR			0xC0 
 
 #define MCP4728_VREF_VDD				0x0
 #define MCP4728_VREF_INTERNAL		0x1

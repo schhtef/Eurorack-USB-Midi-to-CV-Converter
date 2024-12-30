@@ -52,6 +52,7 @@
 
 #include "mcc_generated_files/usb/usb_device.h"
 #include "usb_device_midi.h"
+#include "mcp4728.h"
 
 /*
                          Main application
@@ -61,13 +62,17 @@ int main(void)
     SYSTEM_STATE system_state = SYSTEM_STATE_USB_START;
     SYSTEM_Initialize();
     USB_INDICATION_SetLow(); //Make sure the LED is off until we know USB is configured
-    APP_DeviceAudioMIDIInitialize();
+    //APP_DeviceAudioMIDIInitialize();
+    LDAC_SetLow();
+    GATE_SetLow();
+    
+    
     while(1)
     {
         USBDeviceTasks();
         if((USBGetDeviceState() < CONFIGURED_STATE) ||
                (USBIsDeviceSuspended() == true))
-        {
+        { 
             system_state = SYSTEM_STATE_USB_SUSPEND;
             
             //Either the device is not configured or we are suspended,
@@ -91,8 +96,7 @@ int main(void)
                 break;
             default:
                 break;
-        }
-        MCP4728_Write_AllChannels_Same(3000);  
+        }  
     }//end while
     return 1;
 }

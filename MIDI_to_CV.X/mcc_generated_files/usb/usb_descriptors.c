@@ -176,7 +176,7 @@ const uint8_t configDescriptor1[]={
     2,                      // Number of interfaces in this cfg
     1,                      // Index value of this configuration
     0,                      // Configuration string index
-    _DEFAULT | _SELF,               // Attributes, see usb_device.h
+    _DEFAULT,               // Attributes, see usb_device.h
     50,                     // Max power consumption (2X mA)
 
     /* Interface Descriptor */
@@ -306,7 +306,7 @@ sizeof(sd001),USB_DESCRIPTOR_STRING,
 //Product string descriptor
 const struct{uint8_t bLength;uint8_t bDscType;uint16_t string[12];}sd002={
 sizeof(sd002),USB_DESCRIPTOR_STRING,
-{'M','I','D','I',' ','E','x','a','m','p','l','e'}};
+{'T','E','S','T'}};
 
 //Array of configuration descriptors
 const uint8_t *const USB_CD_Ptr[]=

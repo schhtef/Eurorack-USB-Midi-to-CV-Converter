@@ -107,7 +107,7 @@
 #pragma config ALTCMP1 = DISABLE    //Alternate Comparator 1 Input Enable bit->C1INC is on RB13 and C3INC is on RA0 
 #pragma config TMPRPIN = OFF    //Tamper Pin Enable bit->TMPRN pin function is disabled
 #pragma config SOSCHP = ON    //SOSC High Power Enable bit (valid only when SOSCSEL = 1->Enable SOSC high power mode (default)
-#pragma config ALTI2C1 = ALTI2C1_OFF    //Alternate I2C pin Location->I2C1 Pin mapped to SDA1/SCL1 pins
+#pragma config ALTI2C1 = ALTI2C1_ON    //Alternate I2C pin Location->I2C1 Pin mapped to SDA1/SCL1 pins
 #pragma config ALTCMP2 = DISABLE    //Alternate Comparator 2 Input Enable bit->C2INC is on RA4 and C2IND is on RB4
 #pragma config SMB3EN = SMBUS3    //SM Bus Enable->SMBus 3.0 input levels
 
@@ -128,15 +128,20 @@ void SYSTEM_Initialize(void)
     INTERRUPT_Initialize();
     USBDeviceInit();
     I2C1_Initialize();
+    APP_DeviceAudioMIDIInitialize();
     // DAC Initialization
     dacChannelConfig DAC_Config;
-    DAC_Config.channelVref=1;
+    DAC_Config.channelVref=0x0F; 
     DAC_Config.channel_Gain = 1;
-    MCP4728_Init(DAC_Config);
-    MCP4728_Write_VRef_Select(DAC_Config);
-    MCP4728_Write_Gain_Select(DAC_Config);
+    //MCP4728_Init(DAC_Config);
+    uint8_t data[1];
+    data[0] = 0xAA;
+    I2C1_MESSAGE_STATUS status;
+    //MCP4728_Write_VRef_Select(DAC_Config);
+    //MCP4728_Write_Gain_Select(DAC_Config);
     
-    APP_DeviceAudioMIDIInitialize();
+    //MCP4728_Write_AllChannels_Same(4096);
+    return;
 }
 
 /**

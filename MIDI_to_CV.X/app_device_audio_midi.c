@@ -72,12 +72,10 @@ KEYPRESS* keypressBuffer;
 
 typedef struct
 {
-    // BUFFER_STATE             TransferState;      // The transfer state of the endpoint
-    uint8_t                 numOfMIDIPackets;   // Each USB Packet sent from a device has the possibility of holding more than one MIDI packet,
-    uint8_t                 endpointIndex;                           // keep track of how many MIDI packets are within a USB packet (between 1 and 16, or 4 and 64 bytes)
-    USB_AUDIO_MIDI_EVENT_PACKET*  bufferStart;        // The 2D buffer for the endpoint. There are MIDI_USB_BUFFER_SIZE USB buffers that are filled with numOfMIDIPackets
-                                                //  MIDI packets. This allows for MIDI_USB_BUFFER_SIZE USB packets to be saved, with a possibility of up to 
-                                                //  numOfMIDIPackets MIDI packets within each USB packet.
+    // BUFFER_STATE             TransferState;        // The transfer state of the endpoint
+    uint8_t                 numOfMIDIPackets;         // Each USB Packet sent from a device has the possibility of holding more than one MIDI packet,
+    uint8_t                 endpointIndex;            // Keep track of how many MIDI packets are within a USB packet (between 1 and 16, or 4 and 64 bytes)
+    USB_AUDIO_MIDI_EVENT_PACKET*  bufferStart;        //
     USB_AUDIO_MIDI_EVENT_PACKET*  pBufReadLocation;   // Pointer to USB packet that is being read from
     USB_AUDIO_MIDI_EVENT_PACKET*  pBufWriteLocation;  // Pointer to USB packet that is being written to
 }MIDI_EVENT_BUFFER;
@@ -105,7 +103,7 @@ void APP_DeviceAudioMIDIInitialize()
     USBEnableEndpoint(USB_DEVICE_AUDIO_MIDI_ENDPOINT,USB_OUT_ENABLED|USB_IN_ENABLED|USB_HANDSHAKE_ENABLED|USB_DISALLOW_SETUP);
 
     //Re-arm the OUT endpoint for the next packet
-    USBRxHandle = USBRxOnePacket(USB_DEVICE_AUDIO_MIDI_ENDPOINT,midi_event_buffer.bufferStart->v,64);
+    USBRxHandle = USBRxOnePacket(USB_DEVICE_AUDIO_MIDI_ENDPOINT,midi_event_buffer.bufferStart,64);
     initializeMIDIEventBuffer();
 }
 
@@ -144,6 +142,8 @@ void APP_DeviceAudioMIDISOFHandler()
 * Output: None
 *
 ********************************************************************/
+static uint8_t ReceivedDataBuffer[64];
+
 void APP_DeviceAudioMIDITasks()
 {
     /* If the device is not configured yet, or the device is suspended, then
@@ -155,19 +155,25 @@ void APP_DeviceAudioMIDITasks()
         return;
     }
 
-    if(!USBHandleBusy(USBRxHandle))
+    if(!USBHandleBusy(USBRxHandle)) //check UOWN bit of the RAM register associated with the BDT of this endpoint
     {
+        int stall_flag = 0;
         //We have received a USB frame from the host, it may contain multiple MIDI
         // packets
         //INSERT MIDI PROCESSING CODE HERE
         //Read data from handle
         //Parse into separate MIDI messages
-        handleMIDIPackets();
+        //handleMIDIPackets();
         //clearBuffer();
-        setOutputs();
+        //setOutputs();
         //setControlOutputs();
         //Get ready for next packet (this will overwrite the old data)
-        USBRxHandle = USBRxOnePacket(USB_DEVICE_AUDIO_MIDI_ENDPOINT, midi_event_buffer.bufferStart->v, 64);
+        //USBRxHandle = USBRxOnePacket(USB_DEVICE_AUDIO_MIDI_ENDPOINT, midi_event_buffer.bufferStart, 64);
+        USBRxHandle = USBRxOnePacket(USB_DEVICE_AUDIO_MIDI_ENDPOINT, (uint8_t*)&ReceivedDataBuffer, 64); //sets the UOWN bit while processing, showing that the process is ongoing
+        if(U1EP1bits.EPSTALL)
+        {
+            stall_flag =1;
+        }
     }
 }
 
@@ -288,10 +294,10 @@ void setOutputs()
 {
     // If the keypress buffer is not empty, we are currently holding a note and
     // the GATE LED should be set
-    //MCP4728_Write_SingleChannel(1,4095);
+    MCP4728_Write_SingleChannel(0,4095);
     if(keypressBuffer != NULL)
     {
-        //GATE_SetHigh();
+        GATE_SetHigh();
         //int note_dec = noteToDecimal(keypressBuffer->note)
         //MCP4728_Write_SingleChannel(1,note_dec, );
         //Set output note on DAC
@@ -299,7 +305,6 @@ void setOutputs()
     }
     else if(keypressBuffer == NULL)
     {
-        //GATE_SetLow();
+        GATE_SetLow();
     }
-    GATE_SetHigh();
 }
